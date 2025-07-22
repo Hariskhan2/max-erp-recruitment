@@ -1,0 +1,110 @@
+@import '~antd/dist/reset.css';
+
+.ant-layout-header {
+  display: flex;
+  align-items: center;
+}
+
+.ant-card {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.ant-form-item-label > label {
+  font-weight: 500;
+}
+
+/* Tiptap Editor Styles */
+.tiptap-editor {
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.tiptap-toolbar {
+  border-bottom: 1px solid #d9d9d9;
+  padding: 8px;
+  background-color: #fafafa;
+  display: flex;
+  gap: 4px;
+}
+
+.tiptap-toolbar .ant-btn {
+  border: none;
+  background: transparent;
+}
+
+.tiptap-toolbar .ant-btn:hover {
+  background-color: #e6e6e6;
+}
+
+.tiptap-toolbar .ant-btn.active {
+  background-color: #1890ff;
+  color: white;
+}
+
+.tiptap-content {
+  min-height: 150px;
+  padding: 12px;
+}
+
+.tiptap-content .ProseMirror {
+  min-height: 150px;
+  outline: none;
+}
+
+.tiptap-content .ProseMirror p {
+  margin: 0 0 1em 0;
+}
+
+.tiptap-content .ProseMirror p:last-child {
+  margin-bottom: 0;
+}
+
+.tiptap-content .ProseMirror ul,
+.tiptap-content .ProseMirror ol {
+  padding-left: 1.5em;
+  margin: 0 0 1em 0;
+}
+
+.tiptap-content .ProseMirror li {
+  margin: 0.25em 0;
+}
+
+.tiptap-content .ProseMirror code {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  font-family: monospace;
+}
+
+.tiptap-content .ProseMirror pre {
+  background-color: #f5f5f5;
+  padding: 0.75em 1em;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 0 0 1em 0;
+}
+
+.tiptap-content .ProseMirror pre code {
+  background: none;
+  padding: 0;
+}
+
+.tiptap-content .ProseMirror a {
+  color: #1890ff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.tiptap-content .ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  height: 0;
+}
+
+/* Error state for Tiptap */
+.ant-form-item-has-error .tiptap-editor {
+  border-color: #ff4d4f;
+}

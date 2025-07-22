@@ -1,0 +1,14 @@
+{
+  "name": "max-erp-recruitment",
+  "version": "1.0.0",
+  "description": "Max ERP Recruitment Module",
+  "scripts": {
+    "start": "echo 'Starting both frontend and backend...' && npm run start:backend & npm run start:frontend",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm start",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+  },
+  "keywords": ["recruitment", "hr", "job-posts"],
+  "author": "",
+  "license": "ISC"
+}
