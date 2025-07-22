@@ -3,7 +3,12 @@ import { Menu } from 'antd';
 import { TeamOutlined, SettingOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  collapsed?: boolean;
+  onNavigate?: () => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ collapsed = false, onNavigate }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -11,17 +16,20 @@ const Sidebar: React.FC = () => {
     {
       key: '/',
       icon: <TeamOutlined />,
-      label: 'Current Job Openings',
+      label: collapsed ? undefined : 'Current Job Openings',
+      title: 'Current Job Openings',
     },
     {
       key: '/manage',
       icon: <SettingOutlined />,
-      label: 'Manage Jobs',
+      label: collapsed ? undefined : 'Manage Jobs',
+      title: 'Manage Jobs',
     },
   ];
 
   const handleMenuClick = ({ key }: { key: string }) => {
     navigate(key);
+    onNavigate?.(); // Call callback for mobile drawer close
   };
 
   return (
@@ -31,6 +39,7 @@ const Sidebar: React.FC = () => {
       style={{ height: '100%', borderRight: 0 }}
       items={menuItems}
       onClick={handleMenuClick}
+      inlineCollapsed={collapsed}
     />
   );
 };

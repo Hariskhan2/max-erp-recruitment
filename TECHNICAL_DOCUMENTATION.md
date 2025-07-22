@@ -9,7 +9,9 @@ The Max ERP Recruitment Module is a full-stack application built with React, Nod
 - **Backend**: Node.js, Express 5
 - **State Management**: Redux Toolkit
 - **UI Framework**: Ant Design
+- **Rich Text Editor**: TipTap with StarterKit extensions
 - **HTTP Client**: Axios
+- **Date Handling**: Day.js
 
 ## Component Breakdown and Responsibilities
 
@@ -24,13 +26,25 @@ The Max ERP Recruitment Module is a full-stack application built with React, Nod
 - Handles job post creation with comprehensive form validation
 - Features:
   - Form fields: Job Title, Department, Employment Type, Description, Location, Deadline
+  - Rich text editor with TipTap for job descriptions
   - Real-time validation with custom rules
   - Loading states during submission
   - Success/error notifications
   - Automatic form reset after successful submission
 - Integrates with Redux for state management
 
-#### 3. **JobPostsList.tsx** (`src/components/JobPostsList.tsx`)
+#### 3. **JobPostEditForm.tsx** (`src/components/JobPostEditForm.tsx`)
+- Handles editing existing job posts with pre-populated form fields
+- Features:
+  - Advanced rich text editor with toolbar controls
+  - Formatting options: Bold, Italic, Lists, Links, Code blocks
+  - Form validation matching creation form
+  - Real-time preview of formatted content
+  - Direct API integration for updates
+  - Success/error handling with user feedback
+- Uses TipTap editor with extensions: StarterKit, Link, Placeholder
+
+#### 4. **JobPostsList.tsx** (`src/components/JobPostsList.tsx`)
 - Displays all created job posts in a list format
 - Features:
   - Loading states while fetching data
@@ -39,67 +53,79 @@ The Max ERP Recruitment Module is a full-stack application built with React, Nod
   - Responsive card-based layout
   - Color-coded employment type tags
   - Formatted dates and metadata
+  - Edit functionality with modal dialogs
+  - Delete capabilities with confirmation
+
+#### 5. **Sidebar.tsx** (`src/components/Sidebar.tsx`)
+- Navigation component for switching between different views
+- Features:
+  - Clean menu interface with Ant Design
+  - Active state highlighting
+  - Route-based navigation integration
+
+### Page Components
+
+#### **CurrentJobOpenings.tsx** (`src/pages/CurrentJobOpenings.tsx`)
+- Main dashboard view displaying all active job postings
+- Integrates JobPostsList component for data display
+
+#### **ManageJobs.tsx** (`src/pages/ManageJobs.tsx`)
+- Administrative interface for job management
+- Combines JobPostForm and JobPostsList for full CRUD operations
 
 ### Backend Components
 
-#### **Scalable Architecture**
-The backend now follows a modular, scalable architecture:
+#### **Simple Monolithic Architecture**
+The backend uses a straightforward single-file architecture for rapid development:
 
 ```
 backend/
-├── src/
-│   ├── app.js              # Express app configuration
-│   ├── config/             # Configuration files
-│   │   └── index.js        # Central config
-│   ├── controllers/        # Request handlers
-│   │   └── jobPost.controller.js
-│   ├── middleware/         # Custom middleware
-│   │   ├── errorHandler.js
-│   │   └── requestLogger.js
-│   ├── models/            # Data models
-│   │   └── jobPost.model.js
-│   ├── routes/            # API routes
-│   │   ├── index.js
-│   │   └── jobPost.routes.js
-│   ├── services/          # Business logic
-│   │   └── jobPost.service.js
-│   └── utils/             # Utility functions
-│       └── asyncHandler.js
-└── server.js              # Entry point
+├── node_modules/          # Dependencies
+├── package.json          # Project configuration
+├── package-lock.json     # Dependency lock file
+└── server.js             # Complete backend implementation
 ```
 
-#### **Key Components:**
+#### **server.js - Complete Backend Implementation**
 
-1. **server.js**: Entry point that starts the Express server with graceful shutdown handling
+The entire backend is contained in a single file with the following components:
 
-2. **app.js**: Express application setup with middleware configuration and route mounting
+1. **Express Server Setup**:
+   - CORS middleware for cross-origin requests
+   - JSON body parsing
+   - Port configuration (default: 5000)
 
-3. **Controllers**: Handle HTTP requests and responses
-   - `jobPost.controller.js`: Manages all job post endpoints
+2. **In-Memory Data Storage**:
+   - `jobPosts` array for storing job post data
+   - `nextId` counter for auto-incrementing IDs
 
-4. **Services**: Business logic layer
-   - `jobPost.service.js`: Handles job post CRUD operations with validation
+3. **Request Logging Middleware**:
+   - Timestamps all API requests
+   - Logs request method, path, and body
 
-5. **Routes**: API endpoint definitions
-   - Versioned API structure (`/api/v1/`)
-   - RESTful endpoints for job posts
+4. **CRUD API Endpoints**:
+   - Full REST API implementation
+   - Input validation for all endpoints
+   - Detailed console logging for debugging
 
-6. **Models**: Data structure definitions
-   - `jobPost.model.js`: Defines job post schema and validation
-
-7. **Middleware**:
-   - `errorHandler.js`: Centralized error handling
-   - `requestLogger.js`: Request/response logging
+5. **Server Initialization**:
+   - Startup logging with endpoint documentation
+   - Clear API endpoint listing on startup
 
 #### **API Endpoints**
-- Base URL: `http://localhost:5000/api/v1`
+- Base URL: `http://localhost:5000/api`
 - Endpoints:
   - `GET /job-posts`: Retrieve all job posts
   - `POST /job-posts`: Create a new job post
   - `GET /job-posts/:id`: Retrieve a specific job post
   - `PUT /job-posts/:id`: Update a job post
   - `DELETE /job-posts/:id`: Delete a job post
-  - `GET /health`: API health check
+
+#### **API Features**:
+- **Validation**: Server-side validation for all required fields
+- **Error Handling**: Consistent error responses with appropriate HTTP status codes
+- **Logging**: Comprehensive request/response logging for debugging
+- **CORS Support**: Configured for frontend-backend communication
 
 ### State Management
 
@@ -134,9 +160,16 @@ backend/
 1. **Job Title**: Required, minimum 3 characters
 2. **Department**: Required
 3. **Employment Type**: Required, must be one of: Full-time, Part-time, Internship
-4. **Job Description**: Required, minimum 50 characters
+4. **Job Description**: Required, minimum 50 characters, supports rich text formatting
 5. **Location**: Required
-6. **Application Deadline**: Required, must be a future date
+6. **Application Deadline**: Required, must be a future date (past dates disabled)
+
+### Rich Text Editor Features
+- **TipTap Integration**: Modern WYSIWYG editor with extensible architecture
+- **Formatting Options**: Bold, italic, bullet lists, numbered lists
+- **Advanced Features**: Link insertion, code blocks, placeholder text
+- **Validation**: Real-time character count and content validation
+- **HTML Output**: Clean HTML generation for storage and display
 
 ### Data Flow
 1. User fills out the job post form
@@ -160,15 +193,19 @@ backend/
 ## Functional Coverage Checklist
 
 ✅ **Core Features Implemented**
-- Job post creation form with all required fields
-- Client-side form validation
-- Server-side validation
-- Success/failure notifications
-- Job posts list view
+- Job post creation form with rich text editor
+- Job post editing with pre-populated forms
+- Client-side form validation with real-time feedback
+- Server-side validation and error handling
+- Success/failure notifications with Ant Design messages
+- Job posts list view with formatted content display
+- CRUD operations: Create, Read, Update, Delete
 - Responsive design for mobile and desktop
 - Loading states for async operations
 - Error handling and user feedback
-- Empty states
+- Empty states and placeholder content
+- Navigation with sidebar component
+- Multiple page views for different workflows
 
 ✅ **UI/UX Considerations**
 - Clean, professional interface using Ant Design
@@ -191,14 +228,16 @@ backend/
 2. **Authentication**: No user authentication or authorization
 3. **Search/Filter**: No ability to search or filter job posts
 4. **Pagination**: All posts are loaded at once
-5. **Edit Functionality**: Cannot edit existing job posts
+5. **File Uploads**: No support for attachments or images in job posts
+6. **Email Integration**: No automated notifications for applications
 
 ### Future Improvements
 1. **Database Integration**: Implement PostgreSQL or MongoDB for persistent storage
-2. **Edit Job Post Feature**: 
-   - Add edit button to each job post
-   - Reuse JobPostForm component with pre-filled values
-   - Add PUT endpoint to update posts
+2. **Enhanced Editor Features**:
+   - Image upload and embedding
+   - Table support
+   - Advanced text formatting options
+   - Auto-save functionality
 3. **Advanced Features**:
    - Search and filter functionality
    - Pagination for large datasets

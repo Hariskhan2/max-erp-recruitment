@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Select, DatePicker, Button, Card, message, Spin } from 'antd';
+import { Form, Input, Select, DatePicker, Button, Card, message, Spin, Row, Col } from 'antd';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
@@ -101,36 +101,70 @@ const JobPostEditForm: React.FC<JobPostEditFormProps> = ({ jobPost, onSuccess, o
         onFinish={onFinish}
         autoComplete="off"
       >
-        <Form.Item
-          label="Job Title"
-          name="title"
-          rules={[
-            { required: true, message: 'Please enter job title' },
-            { min: 3, message: 'Job title must be at least 3 characters' }
-          ]}
-        >
-          <Input placeholder="e.g., Senior Software Engineer" />
-        </Form.Item>
+        <Row gutter={[16, 0]}>
+          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+            <Form.Item
+              label="Job Title"
+              name="title"
+              rules={[
+                { required: true, message: 'Please enter job title' },
+                { min: 3, message: 'Job title must be at least 3 characters' }
+              ]}
+            >
+              <Input placeholder="e.g., Senior Software Engineer" />
+            </Form.Item>
+          </Col>
+          
+          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+            <Form.Item
+              label="Department"
+              name="department"
+              rules={[{ required: true, message: 'Please enter department' }]}
+            >
+              <Input placeholder="e.g., Engineering, Marketing, Sales" />
+            </Form.Item>
+          </Col>
+        </Row>
 
-        <Form.Item
-          label="Department"
-          name="department"
-          rules={[{ required: true, message: 'Please enter department' }]}
-        >
-          <Input placeholder="e.g., Engineering, Marketing, Sales" />
-        </Form.Item>
-
-        <Form.Item
-          label="Employment Type"
-          name="employmentType"
-          rules={[{ required: true, message: 'Please select employment type' }]}
-        >
-          <Select placeholder="Select employment type">
-            <Option value="Full-time">Full-time</Option>
-            <Option value="Part-time">Part-time</Option>
-            <Option value="Internship">Internship</Option>
-          </Select>
-        </Form.Item>
+        <Row gutter={[16, 0]}>
+          <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+            <Form.Item
+              label="Employment Type"
+              name="employmentType"
+              rules={[{ required: true, message: 'Please select employment type' }]}
+            >
+              <Select placeholder="Select employment type">
+                <Option value="Full-time">Full-time</Option>
+                <Option value="Part-time">Part-time</Option>
+                <Option value="Internship">Internship</Option>
+              </Select>
+            </Form.Item>
+          </Col>
+          
+          <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+            <Form.Item
+              label="Location"
+              name="location"
+              rules={[{ required: true, message: 'Please enter location' }]}
+            >
+              <Input placeholder="e.g., New York, NY or Remote" />
+            </Form.Item>
+          </Col>
+          
+          <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+            <Form.Item
+              label="Application Deadline"
+              name="deadline"
+              rules={[{ required: true, message: 'Please select application deadline' }]}
+            >
+              <DatePicker
+                style={{ width: '100%' }}
+                disabledDate={disabledDate}
+                format="YYYY-MM-DD"
+              />
+            </Form.Item>
+          </Col>
+        </Row>
 
         <Form.Item
           label="Job Description"
@@ -192,35 +226,19 @@ const JobPostEditForm: React.FC<JobPostEditFormProps> = ({ jobPost, onSuccess, o
           </div>
         </Form.Item>
 
-        <Form.Item
-          label="Location"
-          name="location"
-          rules={[{ required: true, message: 'Please enter location' }]}
-        >
-          <Input placeholder="e.g., New York, NY or Remote" />
-        </Form.Item>
-
-        <Form.Item
-          label="Application Deadline"
-          name="deadline"
-          rules={[{ required: true, message: 'Please select application deadline' }]}
-        >
-          <DatePicker
-            style={{ width: '100%' }}
-            disabledDate={disabledDate}
-            format="YYYY-MM-DD"
-          />
-        </Form.Item>
-
         <Form.Item>
-          <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
-            <Button onClick={onCancel}>
-              Cancel
-            </Button>
-            <Button type="primary" htmlType="submit" loading={submitting}>
-              Update Job Post
-            </Button>
-          </div>
+          <Row>
+            <Col xs={24} sm={24} md={{ span: 12, offset: 12 }} lg={{ span: 8, offset: 16 }}>
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                <Button onClick={onCancel}>
+                  Cancel
+                </Button>
+                <Button type="primary" htmlType="submit" loading={submitting}>
+                  Update Job Post
+                </Button>
+              </div>
+            </Col>
+          </Row>
         </Form.Item>
       </Form>
     </Spin>

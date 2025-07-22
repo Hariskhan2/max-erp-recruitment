@@ -1,5 +1,177 @@
 @import '~antd/dist/reset.css';
 
+/* ====== RESPONSIVE LAYOUT STYLES ====== */
+
+/* Header Styles */
+.app-header {
+  background: #001529;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  height: 64px;
+}
+
+.app-title {
+  color: white !important;
+  margin: 0 !important;
+  font-size: 20px !important;
+  flex: 1;
+}
+
+.mobile-menu-trigger {
+  display: none;
+  color: white !important;
+  margin-right: 16px;
+  font-size: 18px;
+}
+
+.mobile-menu-trigger:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Content Layout */
+.app-content {
+  padding: 16px;
+  background: #f0f2f5;
+  overflow-x: auto;
+}
+
+.content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Sidebar Styles */
+.desktop-sider {
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+}
+
+.mobile-drawer .ant-drawer-body {
+  padding: 0;
+}
+
+/* ====== RESPONSIVE BREAKPOINTS ====== */
+
+/* Large screens (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .mobile-menu-trigger {
+    display: none !important;
+  }
+  
+  .mobile-drawer {
+    display: none;
+  }
+  
+  .app-header {
+    padding: 0 50px;
+  }
+  
+  .app-content {
+    padding: 24px;
+  }
+}
+
+/* Medium screens (tablets, 768px to 991px) */
+@media (max-width: 991px) {
+  .desktop-sider {
+    display: none !important;
+  }
+  
+  .mobile-menu-trigger {
+    display: block !important;
+  }
+  
+  .app-header {
+    padding: 0 16px;
+  }
+  
+  .app-title {
+    font-size: 18px !important;
+  }
+  
+  .app-content {
+    padding: 16px 8px;
+  }
+}
+
+/* Small screens (phones, 576px and down) */
+@media (max-width: 576px) {
+  .app-header {
+    padding: 0 12px;
+  }
+  
+  .app-title {
+    font-size: 16px !important;
+  }
+  
+  .app-content {
+    padding: 12px 4px;
+  }
+  
+  .content-wrapper {
+    padding: 0 4px;
+  }
+}
+
+/* ====== COMPONENT RESPONSIVE STYLES ====== */
+
+/* Form responsiveness */
+.ant-form {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .ant-form-item {
+    margin-bottom: 16px;
+  }
+  
+  .ant-input, .ant-select, .ant-picker {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* Card responsiveness */
+.ant-card {
+  margin-bottom: 16px;
+}
+
+@media (max-width: 576px) {
+  .ant-card {
+    margin: 8px 0;
+  }
+  
+  .ant-card-body {
+    padding: 16px 12px;
+  }
+}
+
+/* Button responsiveness */
+@media (max-width: 576px) {
+  .ant-btn-group .ant-btn {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+/* Table responsiveness */
+@media (max-width: 768px) {
+  .ant-table-wrapper {
+    overflow-x: auto;
+  }
+  
+  .ant-table {
+    min-width: 600px;
+  }
+}
+
 .ant-layout-header {
   display: flex;
   align-items: center;
@@ -107,4 +279,35 @@
 /* Error state for Tiptap */
 .ant-form-item-has-error .tiptap-editor {
   border-color: #ff4d4f;
+}
+
+/* Responsive Tiptap Editor */
+@media (max-width: 768px) {
+  .tiptap-toolbar {
+    flex-wrap: wrap;
+    padding: 6px;
+    gap: 2px;
+  }
+  
+  .tiptap-toolbar .ant-btn {
+    margin: 1px;
+    min-width: 32px;
+    padding: 0 8px;
+  }
+  
+  .tiptap-content {
+    padding: 8px;
+  }
+  
+  .tiptap-content .ProseMirror {
+    min-height: 120px;
+  }
+}
+
+@media (max-width: 576px) {
+  .tiptap-toolbar .ant-btn {
+    min-width: 28px;
+    padding: 0 6px;
+    font-size: 12px;
+  }
 }
